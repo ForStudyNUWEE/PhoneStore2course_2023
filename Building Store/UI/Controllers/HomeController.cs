@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using UI.Data;
 using UI.Models;
 
 namespace UI.Controllers
@@ -7,16 +8,20 @@ namespace UI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,
+                              ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index(Item itemFromForm)
+        public IActionResult Index(List<Category> categoryFromForm)
         {
-            Item item = itemFromForm;
-            return View(item);
+            var products = _context.Product.ToList();
+            var categories = _context.Category.ToList();
+            return View(categories);
         }
 
         public IActionResult Privacy()
