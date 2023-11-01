@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using DataAccess.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace UI.Data
+namespace DataAccess
 {
     public class ApplicationDbContext : IdentityDbContext
     {
@@ -28,24 +29,5 @@ namespace UI.Data
             builder.Entity<Product>().HasData(products);
 
         }
-    }
-
-    public class Category
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        //Navigation properties
-        public ICollection<Product> Products { get; set; } = new HashSet<Product>();
-    }
-    public class Product
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public double Price { get; set; }
-        public int ColorId { get; set; }
-        public int Memory { get; set; }
-        public int CategoryId { get; set; }
-        //Navigation properties
-        public Category Category { get; set; }
     }
 }

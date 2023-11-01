@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessLogic;
+using DataAccess;
+using DataAccess.Entities;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using UI.Data;
 using UI.Models;
 
 namespace UI.Controllers
@@ -8,24 +10,26 @@ namespace UI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _context;
+        private readonly HomeService _homeService;
 
         public HomeController(ILogger<HomeController> logger,
-                              ApplicationDbContext context)
+                            HomeService homeService)
         {
             _logger = logger;
-            _context = context;
+            _homeService = homeService;
         }
 
         public IActionResult Index(List<Category> categoryFromForm)
         {
-            var products = _context.Product.ToList();
-            var categories = _context.Category.ToList();
+            List<Category> categories = _homeService.ChangeName();
+            var product = _homeService.Get(2);
             return View(categories);
         }
 
         public IActionResult Privacy()
         {
+            //Product product = null;
+            //_homeService.Add(product);
             return View();
         }
 

@@ -1,4 +1,4 @@
-namespace UI.Models
+namespace DataAccess.Entities
 {
     public class Item
     {
