@@ -21,9 +21,7 @@ namespace UI.Controllers
 
         public IActionResult Index(List<Category> categoryFromForm)
         {
-            List<Category> categories = _homeService.ChangeName();
-            var product = _homeService.Get(2);
-            return View(categories);
+            return View();
         }
 
         public IActionResult Privacy()
