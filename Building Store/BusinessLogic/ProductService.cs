@@ -10,6 +10,32 @@ namespace BusinessLogic
         {
             _context = context;
         }
+
+        public List<Product> FilterBy(string categoryName)
+        {
+            var products = _context.Product.ToList();
+            List<Product> filteredProducts = new List<Product>();
+            _context.Category.ToList();
+            foreach (var product in products)
+            {
+                if (product.Category.Name == categoryName)
+                {
+                    filteredProducts.Add(product);
+                }    
+            }
+
+            return filteredProducts;
+        }
+
+        public List<Product> SortBy()
+        {
+            var products = _context.Product.ToList();
+            _context.Category.ToList();
+            products.Sort();
+
+            return products;
+        }
+
         public List<Product> GetAll()
         {
             var products = _context.Product.ToList();

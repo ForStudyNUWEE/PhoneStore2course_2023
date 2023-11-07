@@ -1,0 +1,16 @@
+﻿@using DataAccess.Entities;
+@using UI.Controllers;
+@using DataAccess;
+@model Category;
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<form method="post">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Name</label>
+        <input asp-for="Name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>

@@ -7,30 +7,30 @@
     ViewData["Title"] = "Home Page";
 }
 
+<form method="post" asp-action="FilterBy">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Category name</label>
+        <input name="categoryName" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+
 <div class="row row-cols-1 row-cols-md-3 g-4">
     @foreach (var product in Model)
     {
         <div class="col">
             <div class="card">
-            <img src="https://hips.hearstapps.com/hmg-prod/images/iphone-14-main-1664526346.jpg?resize=1024:*" class="card-img-top" alt="...">
-            <div class="card-body">
+                <img src="https://hips.hearstapps.com/hmg-prod/images/iphone-14-main-1664526346.jpg?resize=1024:*" class="card-img-top" alt="...">
+                <div class="card-body">
                     <h5 class="card-title">@product.Category.Name @product.Name</h5>
                     <p class="card-text">price is @product.Price</p>
-            </div>
-
-            <form>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">New name</label>
-                        <input asp-for="@product.Category.Name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    @*<label for="exampleInputEmail1" class="form-label">New price</label>
-                <input asp-for="@Model.Price" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">*@
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-
+                <a class="btn btn-primary" asp-route-productId="@product.Id" asp-action="Edit" role="button">Edit product</a>
+                <a class="btn btn-primary" asp-route-productId="@product.Id" asp-action="Delete" role="button">Delete product</a>
+            </div>
         </div>
-    </div>
     }
 </div>
 
 <a class="btn btn-primary" asp-action="Add" role="button">Add product</a>
+<a class="btn btn-primary" asp-controller="Category" asp-action="Add" role="button">Add category</a>

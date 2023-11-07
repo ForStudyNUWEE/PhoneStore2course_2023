@@ -19,6 +19,12 @@ namespace UI.Controllers
             _productService = productService;
         }
 
+        public IActionResult FilterBy(string categoryName)
+        {
+            var products = _productService.FilterBy(categoryName);
+            return View("Index", products);
+        }
+
         public IActionResult Index()
         {
             var products = _productService.GetAll();
@@ -34,6 +40,24 @@ namespace UI.Controllers
         public IActionResult Add(Product productFromForm)
         {
             _productService.Add(productFromForm);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Edit(int productId)
+        {
+            var product = _productService.Get(productId);
+            return View(product);
+        }
+        [HttpPost]
+        public IActionResult Edit(Product productFromForm)
+        {
+            _productService.Edit(productFromForm);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(int productId)
+        {
+            _productService.Delete(productId);
             return RedirectToAction("Index");
         }
     }
