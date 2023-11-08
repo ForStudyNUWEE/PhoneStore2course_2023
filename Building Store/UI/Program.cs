@@ -12,6 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
@@ -20,6 +21,29 @@ builder.Services.AddScoped<HomeService>();
 builder.Services.AddScoped<ProductService>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var provider = scope.ServiceProvider;
+    var roleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
+    IdentityRole role1 = new IdentityRole("Admin");
+    if (await roleManager.FindByNameAsync(role1.Name) == null)
+    {
+        await roleManager.CreateAsync(role1);
+    }
+    IdentityRole role2 = new IdentityRole("Customer");
+    if (await roleManager.FindByNameAsync(role2.Name) == null)
+    {
+        await roleManager.CreateAsync(role2);
+    }
+
+    var userManager = provider.GetRequiredService<UserManager<IdentityUser>>();
+    var user = await userManager.FindByNameAsync("m.v.boichura@nuwm.edu.ua");
+    await userManager.AddToRoleAsync(user, role1.Name);
+    await userManager.AddToRoleAsync(user, role2.Name);
+    user = await userManager.FindByNameAsync("bug@gmail.com");
+    await userManager.AddToRoleAsync(user, role2.Name);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

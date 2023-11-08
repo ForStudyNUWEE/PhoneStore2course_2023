@@ -1,6 +1,7 @@
 ﻿using BusinessLogic;
 using DataAccess;
 using DataAccess.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using UI.Models;
@@ -19,45 +20,48 @@ namespace UI.Controllers
             _productService = productService;
         }
 
-        public IActionResult FilterBy(string categoryName)
+        public async Task<IActionResult> FilterBy(string categoryName)
         {
-            var products = _productService.FilterBy(categoryName);
+            var products = await _productService.FilterBy(categoryName);
             return View("Index", products);
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var products = _productService.GetAll();
+            var products = await _productService.GetAll();
 
             return View(products);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Add()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Add(Product productFromForm)
+        public async Task<IActionResult> Add(Product productFromForm)
         {
-            _productService.Add(productFromForm);
+            await _productService.Add(productFromForm);
             return RedirectToAction("Index");
         }
 
-        public IActionResult Edit(int productId)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int productId)
         {
-            var product = _productService.Get(productId);
+            var product = await _productService.Get(productId);
             return View(product);
         }
         [HttpPost]
-        public IActionResult Edit(Product productFromForm)
+        public async Task<IActionResult> Edit(Product productFromForm)
         {
-            _productService.Edit(productFromForm);
+            await _productService.Edit(productFromForm);
             return RedirectToAction("Index");
         }
 
-        public IActionResult Delete(int productId)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int productId)
         {
-            _productService.Delete(productId);
+            await _productService.Delete(productId);
             return RedirectToAction("Index");
         }
     }

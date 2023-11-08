@@ -25,12 +25,18 @@
                     <h5 class="card-title">@product.Category.Name @product.Name</h5>
                     <p class="card-text">price is @product.Price</p>
                 </div>
-                <a class="btn btn-primary" asp-route-productId="@product.Id" asp-action="Edit" role="button">Edit product</a>
-                <a class="btn btn-primary" asp-route-productId="@product.Id" asp-action="Delete" role="button">Delete product</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-primary" asp-route-productId="@product.Id" asp-action="Edit" role="button">Edit product</a>
+                    <a class="btn btn-primary" asp-route-productId="@product.Id" asp-action="Delete" role="button">Delete product</a>
+                }
             </div>
         </div>
     }
 </div>
 
-<a class="btn btn-primary" asp-action="Add" role="button">Add product</a>
-<a class="btn btn-primary" asp-controller="Category" asp-action="Add" role="button">Add category</a>
+@if (User.IsInRole("Admin"))
+{
+    <a class="btn btn-primary" asp-action="Add" role="button">Add product</a>
+    <a class="btn btn-primary" asp-controller="Category" asp-action="Add" role="button">Add category</a>
+}

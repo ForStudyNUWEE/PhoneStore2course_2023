@@ -1,5 +1,6 @@
 ﻿using DataAccess;
 using DataAccess.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic
 {
@@ -11,57 +12,57 @@ namespace BusinessLogic
             _context = context;
         }
 
-        public List<Product> FilterBy(string categoryName)
+        public async Task<List<Product>> FilterBy(string categoryName)
         {
-            var products = _context.Product.ToList();
+            var products = await _context.Product.ToListAsync();
             List<Product> filteredProducts = new List<Product>();
-            _context.Category.ToList();
+            await _context.Category.ToListAsync();
             foreach (var product in products)
             {
                 if (product.Category.Name == categoryName)
                 {
                     filteredProducts.Add(product);
-                }    
+                }
             }
 
             return filteredProducts;
         }
 
-        public List<Product> SortBy()
+        public async Task<List<Product>> SortBy()
         {
-            var products = _context.Product.ToList();
-            _context.Category.ToList();
+            var products = await _context.Product.ToListAsync();
+            await _context.Category.ToListAsync();
             products.Sort();
 
             return products;
         }
 
-        public List<Product> GetAll()
+        public async Task<List<Product>> GetAll()
         {
-            var products = _context.Product.ToList();
-            _context.Category.ToList();
+            var products = await _context.Product.ToListAsync();
+            await _context.Category.ToListAsync();
             return products;
         }
-        public Product Get(int id)
+        public async Task<Product> Get(int id)
         {
-            var product = _context.Product.Find(id);
+            var product = await _context.Product.FindAsync(id);
             return product;
         }
-        public void Add(Product product)
+        public async Task Add(Product product)
         {
-            _context.Add(product);
-            _context.SaveChanges();
+            await _context.AddAsync(product);
+            await _context.SaveChangesAsync();
         }
-        public void Edit(Product product)
+        public async Task Edit(Product product)
         {
             _context.Product.Update(product);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var product = Get(id);
+            var product = await Get(id);
             _context.Product.Remove(product);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

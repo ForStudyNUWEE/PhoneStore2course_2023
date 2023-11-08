@@ -10,26 +10,26 @@ namespace BusinessLogic
         {
             _context = context;
         }
-        public Category Get(int id)
+        public async Task<Category> Get(int id)
         {
-            var category = _context.Category.Find(id);
+            var category = await _context.Category.FindAsync(id);
             return category;
         }
-        public void Add(Category category)
+        public async Task Add(Category category)
         {
             _context.Add(category);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        public void Edit(Category category)
+        public async Task Edit(Category category)
         {
             _context.Category.Update(category);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var category = Get(id);
+            var category = await Get(id);
             _context.Category.Remove(category);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }
