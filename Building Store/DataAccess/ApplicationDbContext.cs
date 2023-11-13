@@ -1,10 +1,11 @@
 ﻿using DataAccess.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<Person>
     {
         public DbSet<Category> Category { get; set; }
         public DbSet<Product> Product { get; set; }

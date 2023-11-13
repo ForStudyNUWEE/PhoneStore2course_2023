@@ -1,5 +1,6 @@
 using BusinessLogic;
 using DataAccess;
+using DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<Person>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
@@ -37,7 +38,7 @@ using (var scope = app.Services.CreateScope())
         await roleManager.CreateAsync(role2);
     }
 
-    var userManager = provider.GetRequiredService<UserManager<IdentityUser>>();
+    var userManager = provider.GetRequiredService<UserManager<Person>>();
     var user = await userManager.FindByNameAsync("m.v.boichura@nuwm.edu.ua");
     await userManager.AddToRoleAsync(user, role1.Name);
     await userManager.AddToRoleAsync(user, role2.Name);

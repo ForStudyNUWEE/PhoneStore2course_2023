@@ -1,6 +1,7 @@
 ﻿using BusinessLogic;
 using DataAccess;
 using DataAccess.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using UI.Models;
@@ -24,6 +25,7 @@ namespace UI.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Add()
         {
             return View();
