@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace UI.Migrations
+namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class NavProperties : Migration

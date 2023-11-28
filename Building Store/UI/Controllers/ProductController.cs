@@ -1,6 +1,6 @@
-﻿using BusinessLogic;
-using DataAccess;
-using DataAccess.Entities;
+﻿using Core;
+using Core.Entities;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -11,10 +11,10 @@ namespace UI.Controllers
     public class ProductController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ProductService _productService;
+        private readonly IProductService _productService;
 
         public ProductController(ILogger<HomeController> logger,
-                            ProductService productService)
+                            IProductService productService)
         {
             _logger = logger;
             _productService = productService;

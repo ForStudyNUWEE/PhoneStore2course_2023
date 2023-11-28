@@ -1,6 +1,5 @@
-﻿using BusinessLogic;
-using DataAccess;
-using DataAccess.Entities;
+﻿using Core;
+using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using UI.Models;
@@ -10,10 +9,10 @@ namespace UI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly HomeService _homeService;
+        private readonly IHomeService _homeService;
 
         public HomeController(ILogger<HomeController> logger,
-                            HomeService homeService)
+                            IHomeService homeService)
         {
             _logger = logger;
             _homeService = homeService;

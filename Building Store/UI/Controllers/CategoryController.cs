@@ -1,6 +1,5 @@
-﻿using BusinessLogic;
-using DataAccess;
-using DataAccess.Entities;
+﻿using Core;
+using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -11,10 +10,10 @@ namespace UI.Controllers
     public class CategoryController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly CategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
 
         public CategoryController(ILogger<HomeController> logger,
-                            CategoryService categoryService)
+                            ICategoryService categoryService)
         {
             _logger = logger;
             _categoryService = categoryService;

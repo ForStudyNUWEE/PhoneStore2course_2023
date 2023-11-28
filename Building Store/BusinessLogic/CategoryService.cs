@@ -1,35 +1,35 @@
-﻿using DataAccess;
-using DataAccess.Entities;
+﻿using Core.Entities;
+using Core.Interfaces;
 
-namespace BusinessLogic
+namespace Core
 {
-    public class CategoryService
+    internal class CategoryService : ICategoryService
     {
-        private readonly ApplicationDbContext _context;
-        public CategoryService(ApplicationDbContext context)
+        private readonly IRepository<Category> _categoryRepo;
+        public CategoryService(IRepository<Category> categoryRepo)
         {
-            _context = context;
+            _categoryRepo = categoryRepo;
         }
         public async Task<Category> Get(int id)
         {
-            var category = await _context.Category.FindAsync(id);
+            var category = await _categoryRepo.GetByID(id);
             return category;
         }
         public async Task Add(Category category)
         {
-            _context.Add(category);
-            await _context.SaveChangesAsync();
+            await _categoryRepo.Insert(category);
+            await _categoryRepo.Save();
         }
         public async Task Edit(Category category)
         {
-            _context.Category.Update(category);
-            await _context.SaveChangesAsync();
+            await _categoryRepo.Update(category);
+            await _categoryRepo.Save();
         }
         public async Task Delete(int id)
         {
             var category = await Get(id);
-            _context.Category.Remove(category);
-            await _context.SaveChangesAsync();
+            await _categoryRepo.Delete(category);
+            await _categoryRepo.Save();
         }
     }
 }

@@ -1,22 +1,24 @@
-﻿using DataAccess;
-using DataAccess.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Core.Entities;
+using Core.Interfaces;
 
-namespace BusinessLogic
+namespace Core
 {
-    public class ProductService
+    internal class ProductService : IProductService
     {
-        private readonly ApplicationDbContext _context;
-        public ProductService(ApplicationDbContext context)
+        private readonly IRepository<Product> _productRepo;
+        private readonly IRepository<Category> _categoryRepo;
+        public ProductService(IRepository<Product> productRepo,
+                              IRepository<Category> categoryRepo)
         {
-            _context = context;
+            _productRepo = productRepo;
+            _categoryRepo = categoryRepo;
         }
 
         public async Task<List<Product>> FilterBy(string categoryName)
         {
-            var products = await _context.Product.ToListAsync();
+            var products = await _productRepo.GetAll();
             List<Product> filteredProducts = new List<Product>();
-            await _context.Category.ToListAsync();
+            await _categoryRepo.GetAll();
             foreach (var product in products)
             {
                 if (product.Category.Name == categoryName)
@@ -30,8 +32,8 @@ namespace BusinessLogic
 
         public async Task<List<Product>> SortBy()
         {
-            var products = await _context.Product.ToListAsync();
-            await _context.Category.ToListAsync();
+            var products = await _productRepo.GetAll();
+            await _categoryRepo.GetAll();
             products.Sort();
 
             return products;
@@ -39,30 +41,30 @@ namespace BusinessLogic
 
         public async Task<List<Product>> GetAll()
         {
-            var products = await _context.Product.ToListAsync();
-            await _context.Category.ToListAsync();
+            var products = await _productRepo.GetAll();
+            await _categoryRepo.GetAll();
             return products;
         }
         public async Task<Product> Get(int id)
         {
-            var product = await _context.Product.FindAsync(id);
+            var product = await _productRepo.GetByID(id);
             return product;
         }
         public async Task Add(Product product)
         {
-            await _context.AddAsync(product);
-            await _context.SaveChangesAsync();
+            await _productRepo.Insert(product);
+            await _productRepo.Save();
         }
         public async Task Edit(Product product)
         {
-            _context.Product.Update(product);
-            await _context.SaveChangesAsync();
+            await _productRepo.Update(product);
+            await _productRepo.Save();
         }
         public async Task Delete(int id)
         {
             var product = await Get(id);
-            _context.Product.Remove(product);
-            await _context.SaveChangesAsync();
+            await _productRepo.Delete(product);
+            await _productRepo.Save();
         }
     }
 }

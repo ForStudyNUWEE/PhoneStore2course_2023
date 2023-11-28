@@ -1,14 +1,9 @@
-﻿using DataAccess;
-using DataAccess.Entities;
-
-namespace BusinessLogic
+﻿namespace Core
 {
-    public class HomeService
+    internal class HomeService : IHomeService
     {
-        private readonly ApplicationDbContext _context;
-        public HomeService(ApplicationDbContext context)
+        public HomeService()
         {
-            _context = context;
         }
     }
 }
